@@ -107,7 +107,7 @@ Esse tipo de implementação é utilizado na comunicação entre aplicações de
 
 ### Dead letter queues
 
--   Algumas mensagens não são entregues, seja por problemas de redes o outros motivos;
+-   Algumas mensagens não são entregues, seja por problemas de redes ou outros motivos;
 -   São encaminhadas para o Exchange específica com uma fila associada, que encaminham as mensagens para uma Dead letter queue;
 -   As mensagens nesse estado, podem vir a serem consumidas para possíveis checagens, como se fosse um registro de log;
 
@@ -125,11 +125,15 @@ O RabbitMQ disponibiliza alguns recursos pensados em resolver as situações que
 
 ### Publisher confirm
 
-A exchange ao receber uma mensagem, confirma ao produtor que recebeu corretamente a mensagem.
+A **exchange** ao receber uma mensagem, confirma ao produtor que recebeu corretamente a mensagem.
+
+<p align="center">
+    <img src="./media/rabbit-ack-nack.gif" />
+</p>
 
 ### Consumer acknowledgement
 
-O consumidor ao receber uma mensagem, retorna uma das 3 confirmações abaixo para fila:
+O **consumidor** ao receber uma mensagem, retorna uma das 3 confirmações abaixo para fila:
 
 | Tipo             | Como funciona                                                                                 |
 | :--------------- | --------------------------------------------------------------------------------------------- |
