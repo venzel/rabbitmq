@@ -1,10 +1,10 @@
 # RabbitMQ
 
-RabbitMQe é um serviço de mensageria que utiliza o protocolo **AMQP** (Advanced Message Queuing Protocol) para transporte de dados. Esse protocolo nos permite trabalhar com envio de mensagens assíncronas.
-
 <p align="center">
     <img src="./media/logo.png" width="150px" />
 </p>
+
+RabbitMQ é um serviço de mensageria que utiliza o protocolo **AMQP** (Advanced Message Queuing Protocol) para transporte de dados. Esse protocolo nos permite trabalhar com envio de mensagens assíncronas.
 
 ## Vantagens
 
@@ -26,29 +26,30 @@ Utilizando o protocolo TCP, o RabbitMQ abre apenas uma conexão e cria vários c
 
 **Observação:** Para cada canal aberto, abre uma thread.
 
-### Protocolos
+### Kafka vs RabbitMQ
 
-| Características | Apache Kafka                              | RabbitMQ                                                                              |
-| :-------------- | :---------------------------------------- | :------------------------------------------------------------------------------------ |
-| Protocolos      | O Kafka usa um protocolo binário via TCP. | Protocolo avançado de fila de mensagens (AMQP) com suporte via plug-ins: MQTT, STOMP. |
+| Características | Kafka                                                                                                                                              | RabbitMQ                                                                                                                                |
+| :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
+| Protocolos      | O Kafka usa um protocolo binário via TCP.                                                                                                          | Protocolo avançado de fila de mensagens (AMQP) com suporte via plug-ins: MQTT, STOMP.                                                   |
+| Arquitetura     | Kafka é uma plataforma de streaming distribuída, projetada para lidar com grandes volumes de dados em tempo real.                                  | RabbitMQ é um middleware de mensageria de propósito geral baseado em AMQP.                                                              |
+| Persistência    | Kafka mantém os dados por um período configurável e permite que várias partes de um sistema leiam e gravem mensagens em tempo real.                | Por padrão as mensagens são persistidas em memória.                                                                                     |
+| Casos de Uso    | É adequado para casos de uso que exigem processamento de stream em tempo real, como pipelines de dados, análise de logs, processamento de eventos. | É ideal para aplicativos que exigem fila de mensagens tradicional, comunicação entre sistemas heterogêneos e integração de aplicativos. |
 
-## Como funciona
+## Exchange
 
 <p align="center">
     <img src="./media/rabbit-2.gif" />
 </p>
 
-### Exchange
-
 Atua como um roteador, ou seja, um ponto de entrada para as mensagens que são posteriormente encaminhadas para as filas específicas.
 
-### As 3 formas mais conhecidas de implementar filas com o RabbitMQ
+## As 3 formas mais conhecidas de implementar filas com o RabbitMQ
 
-#### 1. Workers
+### 1. Workers
 
 Utilizada quando existe uma alta demanda de processamento bloqueante como: processamento de uma fila de vídeos (que utiliza muito I.O), update em massa em uma carga de dados.
 
-#### 2. Publish/Subscribe
+### 2. Publish/Subscribe
 
 Utilizado em muitos cenários do nosso dia dia como: push notification, chat, envio de mensagens, principais tipos dessa categoria:
 
@@ -71,9 +72,20 @@ Utilizado em muitos cenários do nosso dia dia como: push notification, chat, en
 🔑 No exemplo acima, foi alterada o binding key de x para y, dessa forma, as mensagens foram roteadas para outra fila.
 
 -   **Topic:** Similar à Direct Exchange, mas permite um casamento mais sofisticado entre a chave de roteamento e a chave de ligação da fila, usando padrões (wildcards) para rotear mensagens com base em um padrão definido.
+
+<p align="center">
+    <img src="./media/topic-1.gif" width="500px" />
+</p>
+
+No exemplo acima foi utilizado o wildcard **checkout.log**, com isso ele envia tanto para as filas **\*.log** como **checkout.log**.
+
 -   **Fanout:** Envio de mensagens em massa, como um broadcast. Distribui todas as mensagens que recebe para todas as filas que estão vinculadas a exchange. Ignora a chave de roteamento da mensagem.
 
-#### 3. RPC (Remote Procedure Call)
+<p align="center">
+    <img src="./media/fanout-1.gif" width="500px" />
+</p>
+
+### 3. RPC (Remote Procedure Call)
 
 Esse tipo de implementação é utilizado na comunicação entre aplicações desenvolvidas em diferentes tecnologias. Exemplo: Um app desenvolvido em Node.js precisa fazer requisições em uma API Golang.
 
