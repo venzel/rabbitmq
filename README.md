@@ -1,5 +1,7 @@
 # RabbitMQ
 
+RabbitMQe é um serviço de mensageria que utiliza o protocolo **AMQP** (Advanced Message Queuing Protocol) para transporte de dados. Esse protocolo nos permite trabalhar com envio de mensagens assíncronas.
+
 <p align="center">
     <img src="./media/logo.png" width="150px" />
 </p>
@@ -36,25 +38,44 @@ Utilizando o protocolo TCP, o RabbitMQ abre apenas uma conexão e cria vários c
     <img src="./media/rabbit-2.gif" />
 </p>
 
-## Exchange
+### Exchange
 
 Atua como um roteador, ou seja, um ponto de entrada para as mensagens que são posteriormente encaminhadas para as filas específicas.
 
-### Tipos de exchanges
+### As 3 formas mais conhecidas de implementar filas com o RabbitMQ
 
-#### Direct exchange
+#### 1. Workers
 
-Roteia mensagens para filas com base em uma chave de roteamento. A mensagem é entregue à fila cuja chave de roteamento está exatamente correspondente à chave de roteamento da mensagem.
+Utilizada quando existe uma alta demanda de processamento bloqueante como: processamento de uma fila de vídeos (que utiliza muito I.O), update em massa em uma carga de dados.
+
+#### 2. Publish/Subscribe
+
+Utilizado em muitos cenários do nosso dia dia como: push notification, chat, envio de mensagens, principais tipos dessa categoria:
+
+-   **Direct:** Nesse tipo de implementação o roteamento de mensagens para filas é realizado com base em uma chave de roteamento. A mensagem é entregue à fila cuja chave de roteamento está exatamente correspondente à chave de roteamento da
+    mensagem.
 
 <p align="center">
-    <img src="./media/rabbit-3.gif" />
+    <img src="./media/direct-1.gif" width="500px" />
 </p>
 
-**Além da direct também temos:**
+| ⚠️ Observações                                                                                       |
+| :--------------------------------------------------------------------------------------------------- |
+| As mensagens são distribuidas entre os consumidores, utilizando o algoritimo de Round-Robin.         |
+| Um vez a mensagem lida por algum consumidor, não é possível ser lida novamente por outro consumidor. |
 
--   **Fanout:** Distribui todas as mensagens que recebe para todas as filas que estão vinculadas a essa exchange. Ignora a chave de roteamento da mensagem.
+<p align="center">
+    <img src="./media/direct-2.gif" width="500px" />
+</p>
+
+🔑 No exemplo acima, foi alterada o binding key de x para y, dessa forma, as mensagens foram roteadas para outra fila.
+
 -   **Topic:** Similar à Direct Exchange, mas permite um casamento mais sofisticado entre a chave de roteamento e a chave de ligação da fila, usando padrões (wildcards) para rotear mensagens com base em um padrão definido.
--   **Headers:** Roteia mensagens com base em cabeçalhos de mensagens em vez de chaves de roteamento, permitindo combinações complexas de atributos de cabeçalho.
+-   **Fanout:** Envio de mensagens em massa, como um broadcast. Distribui todas as mensagens que recebe para todas as filas que estão vinculadas a exchange. Ignora a chave de roteamento da mensagem.
+
+#### 3. RPC (Remote Procedure Call)
+
+Esse tipo de implementação é utilizado na comunicação entre aplicações desenvolvidas em diferentes tecnologias. Exemplo: Um app desenvolvido em Node.js precisa fazer requisições em uma API Golang.
 
 ## Queues
 
