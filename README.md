@@ -116,6 +116,35 @@ Esse tipo de implementação é utilizado na comunicação entre aplicações de
 -   As mensagens são armazenadas em disco e caso o broker reinicie, a mensagens não são perdaidas;
 -   Muito custosa, pois, exige muito I/O, esse recurso é utilizado geralmente quando são enviadas milhões de mensagens e os consumidores não dão conta de realizar as leituras de forma correta;
 
+## Confiabilidade
+
+-   Como garantir que as mensagens não serão perdidas no meio do caminho?
+-   Como garantir que as mensagens foram processadas corretamente pelos consumidores?
+
+O RabbitMQ disponibiliza alguns recursos pensados em resolver as situações questionadas acima:
+
+### Publisher confirm
+
+A exchange ao receber uma mensagem, confirma ao produtor que recebeu corretamente a mensagem.
+
+### Consumer acknowledgement
+
+O consumidor ao receber uma mensagem, retorna uma das 3 confirmações abaixo para fila:
+
+| Tipo             | Como funciona                                                                                 |
+| :--------------- | --------------------------------------------------------------------------------------------- |
+| **Basic.Ack**    | O consumidor recebe uma mensagem e processa o handler corretamente. Devolve um Ack para fila. |
+| **Basic.Reject** | O consumidor recebe uma mensagem porém não processa o handler. Devolve um Reject para fila.   |
+| **Basic.Nack**   | É exatamente como o Reject com uma excecção: processa várias mensagens ao mesmo tempo.        |
+
+<p align="center">
+    <img src="./media/rabbit-ack-1.gif" />
+</p>
+
+### Filas persistidas
+
+As mensagens são persitidas em disco.
+
 <hr />
 
 <div>
