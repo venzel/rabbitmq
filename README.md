@@ -151,6 +151,62 @@ As mensagens são persitidas em disco.
 
 <hr />
 
+### Passo a passo
+
+```bash
+docker-compose up -d
+```
+
+### Passo 1: acessa a dashboard
+
+http://localhost:15672
+
+<p align="center">
+    <img src="./media/rabbit-painel-1.png" />
+</p>
+
+### Passo 2: adiciona uma fila
+
+<p align="center">
+    <img src="./media/rabbit-painel-2.png" />
+</p>
+
+<p align="center">
+    <img src="./media/rabbit-painel-3.png" />
+</p>
+
+### Passo 3: verifica as exchanges defaults
+
+<p align="center">
+    <img src="./media/rabbit-painel-4.png" />
+</p>
+
+### Passo 4: volta na fila customers criada
+
+<p align="center">
+    <img src="./media/rabbit-painel-5.png" />
+</p>
+
+### Passo 5: realiza o binding de uma fila com uma exchange
+
+<p align="center">
+    <img src="./media/rabbit-painel-6.png" />
+</p>
+
+### Passo 6: envia uma mensagem
+
+<p align="center">
+    <img src="./media/rabbit-painel-7.png" />
+</p>
+
+### Passo 5: consome a fila
+
+<p align="center">
+    <img src="./media/rabbit-painel-8.png" />
+</p>
+
+<hr />
+
 <div>
   <img align="left" src="https://imgur.com/k8HFd0F.png" width=35 alt="Profile"/>
   <sub>Made with 💙 by <a href="https://github.com/venzel">Enéas Almeida</a></sub>
