@@ -1,5 +1,7 @@
 # RabbitMQ
 
+> Este guia foi elaborado por **Enéas Almeida** com o principal objetivo de facilitar os repasses de informações à equipe.
+
 <p align="center">
     <img src="./media/logo.png" width="150px" />
 </p>
